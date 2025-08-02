@@ -24,7 +24,6 @@ export const getUsers = async (req: Request, res: Response): Promise<void> => {
 export const deleteUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await User.findById(req.params.id);
-
     if (user) {
       // Optional: Add logic here to prevent deleting an admin user if you want
       // if (user.role === 'admin') {
@@ -148,5 +147,31 @@ export const changeUserPassword = async (req: Request, res: Response) => {
   } catch (error) {
     console.error('Password change error:', error);
     return res.status(500).json({ success: false, message: 'Server Error' });
+  }
+};
+
+/**
+ * @desc    Delete the currently logged-in user's own account
+ * @route   DELETE /api/v1/users/profile
+ * @access  Private
+ */
+export const deleteUserProfile = async (req: Request, res: Response): Promise<void> => {
+  try {
+    if (!req.user) {
+      res.status(401).json({ success: false, message: 'Not authorized' });
+      return;
+    }
+
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      res.status(404).json({ success: false, message: 'User not found' });
+      return;
+    }
+
+    await user.deleteOne();
+    res.status(200).json({ success: true, message: 'Your account has been deleted successfully' });
+  } catch (error) {
+    console.error('User self-deletion failed:', error);
+    res.status(500).json({ success: false, message: 'Server error while deleting account' });
   }
 };

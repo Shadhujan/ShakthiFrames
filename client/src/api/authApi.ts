@@ -20,8 +20,6 @@ interface AuthResponse {
   token: string;
 }
 
-// --- API Functions ---
-
 export const registerUser = async (userData: RegisterData): Promise<AuthResponse> => {
   try {
     const response = await axios.post(`${API_URL}/register`, userData);

@@ -45,6 +45,9 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
     // Save user to database
     const savedUser = await newUser.save();
 
+    const token = generateToken(savedUser._id.toString());
+
+
     // Return success response (exclude password)
     res.status(201).json({
       success: true,
@@ -56,6 +59,7 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
         role: savedUser.role,
         createdAt: savedUser.createdAt,
       },
+      token,
     });
   } catch (error: any) {
     console.error('Registration error:', error);

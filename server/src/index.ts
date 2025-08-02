@@ -29,7 +29,17 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Security middleware
-app.use(helmet());
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+      "script-src": ["'self'", "https://js.stripe.com"], // Allow scripts from your site and Stripe
+      "connect-src": ["'self'", "https://api.stripe.com", "https://r.stripe.com"], // Allow connections to your API and Stripe's services
+      "frame-src": ["'self'", "https://js.stripe.com", "https://hooks.stripe.com"], // Allow iframes from Stripe
+      "img-src": ["'self'", "https://*.stripe.com"], // Allow images from Stripe
+    },
+  })
+);
 
 // Enable CORS for all origins (you might want to restrict this in production)
 

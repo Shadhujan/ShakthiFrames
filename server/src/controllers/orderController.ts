@@ -9,8 +9,34 @@ import transporter from '../config/nodemailer';
  */
 export const getOrders = async (req: Request, res: Response): Promise<Response | void> => {
   try {
-    const orders = await Order.find({}).populate('user', 'name email').sort({ createdAt: -1 });
-    res.status(200).json({ success: true, count: orders.length, order: orders });
+
+      const orders = await Order.find({})
+      .populate('user', 'name email')
+      .sort({ createdAt: -1 })
+      .lean(); // <--- THIS IS THE FIX
+
+    // Now 'orders' is an array of plain objects, and the .map() will work correctly.
+    const processedOrders = orders.map(order => {
+      // If populate() failed, the 'user' field is null.
+      if (!order.user) {
+        // The spread operator now works as expected because 'order' is a plain object.
+        return {
+          ...order,
+          user: {
+            name: 'Deleted User',
+            email: 'N/A'
+          },
+        };
+      }
+      return order;
+    });
+
+    res.status(200).json({
+      success: true,
+      count: processedOrders.length,
+      order: processedOrders, // Send the correctly processed array
+    });
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: 'Server Error' });
@@ -156,6 +182,40 @@ export const getMyOrders = async (req: Request, res: Response): Promise<Response
     res.status(200).json({ success: true, orders });
   } catch (error) {
     console.error('Get My Orders error:', error);
+    res.status(500).json({ success: false, message: 'Server Error' });
+  }
+};
+
+/**
+ * @desc    Get sales data for chart
+ * @route   GET /api/v1/orders/sales-stats
+ * @access  Private/Admin
+ */
+export const getSalesStats = async (req: Request, res: Response): Promise<Response | void> => {
+  try {
+    const stats = await Order.aggregate([
+      {
+        $match: { isPaid: true } // only count paid orders
+      },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$paidAt" } }, // group by day
+          totalSales: { $sum: "$totalPrice" }
+        }
+      },
+      {
+        $sort: { _id: 1 } // sort by date
+      }
+    ]);
+
+    const formatted = stats.map((entry) => ({
+      date: entry._id,
+      sales: entry.totalSales
+    }));
+
+    res.status(200).json({ success: true, data: formatted });
+  } catch (error) {
+    console.error("Sales stats error:", error);
     res.status(500).json({ success: false, message: 'Server Error' });
   }
 };

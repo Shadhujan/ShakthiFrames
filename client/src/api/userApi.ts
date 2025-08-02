@@ -20,6 +20,7 @@ export const getUsers = async (token: string): Promise<User[]> => {
 
 export const deleteUser = async (userId: string, token: string): Promise<void> => {
   try {
+    console.log("Deleting user with ID:", userId);
     await axios.delete(`${API_URL}/${userId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -28,6 +29,18 @@ export const deleteUser = async (userId: string, token: string): Promise<void> =
     throw error;
   }
 };
+
+export const deleteMyAccount = async (token: string): Promise<void> => {
+  try {
+    await axios.delete(`${API_URL}/profile`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  } catch (error) {
+    console.error("Failed to delete own account:", error);
+    throw error;
+  }
+}
+
 
 // --- For User Profile Page (for the currently logged-in user) ---
 export const getMyProfile = async (token: string): Promise<User> => {

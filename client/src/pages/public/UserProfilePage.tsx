@@ -14,6 +14,7 @@ import { ProfileHeader } from '@/components/profile/ProfileHeader';
 import { AccountSettings } from '@/components/profile/AccountSettings';
 import { OrderHistory } from '@/components/profile/OrderHistory';
 import { AccountManagement } from '@/components/profile/AccountManagement'; // Changed from AccountActions to match component
+import { deleteMyAccount  } from '@/api/userApi';
 
 export default function UserProfilePage() {
   const { user, token, setUser, isLoggedIn } = useAuthStore();
@@ -61,7 +62,24 @@ export default function UserProfilePage() {
 
   // Handler stubs for future implementation
   const handleChangePassword = async (data: PasswordChangeData): Promise<void> => { console.log(data); };
-  const handleDeleteAccount = async (): Promise<void> => { console.log("Deleting account..."); };
+
+  const handleDeleteAccount = async (): Promise<void> => {
+  if (!token) {
+    toast.error("You must be logged in to delete your account.");
+    return;
+  }
+
+  try {
+    await deleteMyAccount(token); // ✅ NOW THIS IS CORRECT
+    toast.success("Your account has been deleted.");
+    useAuthStore.getState().logout();
+    navigate('/');
+  } catch (error) {
+    console.error("Account deletion failed:", error);
+    toast.error("Failed to delete your account.");
+  }
+};
+
   const handleExportData = async (): Promise<void> => { console.log("Exporting data..."); };
 
   if (isLoading) {

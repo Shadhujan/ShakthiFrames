@@ -1,6 +1,6 @@
 // ----------------- START OF CORRECTED orderRoutes.ts -----------------
 import express from 'express';
-import { getOrders, updateOrderStatus, createOrder, getMyOrders } from '../controllers/orderController';
+import { getOrders, updateOrderStatus, createOrder, getMyOrders, getSalesStats } from '../controllers/orderController';
 import { protect, admin } from '../middleware/authMiddleware';
 
 const router = express.Router();
@@ -17,6 +17,8 @@ router.route('/').get(protect, admin, getOrders);
 
 // PUT /api/v1/orders/:id/status - Only an admin can update status.
 router.route('/:id/status').put(protect, admin, updateOrderStatus);
+
+router.route('/sales-stats').get(protect, admin, getSalesStats);
 
 export default router;
 // ----------------- END OF CORRECTED orderRoutes.ts -----------------

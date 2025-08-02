@@ -9,6 +9,7 @@ interface SalesChartProps {
   data: SalesDataPoint[];
 }
 
+
 export default function SalesChart({ data }: SalesChartProps) {
   return (
     <ResponsiveContainer width="100%" height={250}>

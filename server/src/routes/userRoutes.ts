@@ -4,7 +4,8 @@ import {
   deleteUser,
   getUserProfile,
   updateUserProfile,
-  changeUserPassword
+  changeUserPassword,
+  deleteUserProfile
 } from '../controllers/userController';
 import { protect, admin } from '../middleware/authMiddleware';
 
@@ -15,7 +16,8 @@ const router = express.Router();
 // They only need the 'protect' middleware, not 'admin'.
 router.route('/profile')
   .get(protect, getUserProfile)
-  .put(protect, updateUserProfile);
+  .put(protect, updateUserProfile)
+  .delete(protect, deleteUserProfile);
 
 // --- Admin-only routes ---
 router.route('/').get(protect, admin, getUsers);

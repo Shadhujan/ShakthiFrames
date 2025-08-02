@@ -20,6 +20,7 @@ export default function PaymentPage() {
   const [clientSecret, setClientSecret] = useState('');
   const { getCartTotal, getTotalItems } = useCartStore();
   const token = useAuthStore((state) => state.token);
+  const hasHydrated = useAuthStore((state) => state._hasHydrated);
 
   const cartTotal = getCartTotal();
   const totalItems = getTotalItems();
@@ -30,24 +31,25 @@ export default function PaymentPage() {
   // State to control DummyCard dialog visibility
   const [showDummyCard, setShowDummyCard] = useState(false);
 
-  useEffect(() => {
-    const createIntent = async () => {
-      try {
-        if (finalTotal <= 0) return;
-        const response = await axios.post(
-          '/api/v1/payment/create-payment-intent',
-          { amount: Math.round(finalTotal * 100) },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        setClientSecret(response.data.clientSecret);
-      } catch (error) {
-        console.error("Failed to create payment intent:", error);
-      }
-    };
-    if (token && finalTotal > 0) {
-      createIntent();
+useEffect(() => {
+  if (!hasHydrated || !token || finalTotal <= 0) return;
+
+  const createIntent = async () => {
+    try {
+      const response = await axios.post(
+        '/api/v1/payment/create-payment-intent',
+        { amount: Math.round(finalTotal * 100) },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setClientSecret(response.data.clientSecret);
+    } catch (error) {
+      console.error("Failed to create payment intent:", error);
     }
-  }, [finalTotal, token]);
+  };
+
+  createIntent();
+}, [hasHydrated, token, finalTotal]);
+
 
   const appearance = { theme: 'stripe' as const };
   const options: StripeElementsOptions = { clientSecret, appearance };

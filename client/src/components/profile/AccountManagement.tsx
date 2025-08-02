@@ -54,27 +54,6 @@ export function AccountManagement({ onDeleteAccount }: AccountManagementProps) {
         </CardDescription>
       </CardHeader>
       <CardContent className="p-6 space-y-6">
-        {/* Data Export Section */}
-        {/* <div className="p-4 border rounded-lg bg-gray-50">
-          <h3 className="font-semibold text-black mb-2 flex items-center gap-2">
-            <FileText className="w-5 h-5" />
-            Export Your Data
-          </h3>
-          <p className="text-sm text-gray-600 mb-4">
-            Download a copy of all your account data, including profile information and order history.
-          </p>
-          <Button
-            onClick={handleExportData}
-            disabled={isExporting}
-            variant="outline"
-          >
-            {isExporting ? (
-              <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Exporting...</>
-            ) : (
-              <><Download className="mr-2 h-4 w-4" />Export Data</>
-            )}
-          </Button>
-        </div> */}
 
         {/* Account Deletion Section */}
         <div className="p-4 border border-red-200 rounded-lg bg-red-50">

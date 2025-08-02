@@ -1,10 +1,10 @@
 import express from 'express';
-import { getDashboardStats } from '../controllers/dashboardController';
+import { getDashboardData } from '../controllers/dashboardController';
 import { protect, admin } from '../middleware/authMiddleware';
 
 const router = express.Router();
 
-// This route should only be accessible to authenticated admins
-router.route('/').get(protect, admin, getDashboardStats);
+// This single route will provide all data for the admin dashboard
+router.get('/', protect, admin, getDashboardData);
 
 export default router;
