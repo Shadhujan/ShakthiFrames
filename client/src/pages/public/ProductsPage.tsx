@@ -1,3 +1,4 @@
+//client/src/pages/public/ProductsPage.tsx
 import { useState, useEffect, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 //import { Checkbox } from '@/components/ui/checkbox';
@@ -7,8 +8,9 @@ import { Separator } from '@/components/ui/separator';
 import ProductCard from '@/components/public/ProductCard';
 import { IProduct } from '@/types';
 import { getProducts } from '@/api/productApi';
-import { Filter } from 'lucide-react';
+import { Filter, Search } from 'lucide-react';
 import { LoadingPage } from '@/components/shared/LoadingPage';
+import { Input } from '@/components/ui/input';
 
 export default function ProductsPage() {
   // --- STATE MANAGEMENT FOR REAL DATA ---
@@ -18,6 +20,7 @@ export default function ProductsPage() {
   // --- FILTER STATE (No change needed) ---
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<number[]>([0, 1000]); // Start with a default range
+  const [searchTerm, setSearchTerm] = useState('');
 
   // --- API DATA FETCHING ---
   useEffect(() => {
@@ -57,10 +60,15 @@ export default function ProductsPage() {
       const categoryMatch = selectedCategories.length === 0 ||
         selectedCategories.includes(product.category);
       const priceMatch = product.price >= priceRange[0] && product.price <= priceRange[1];
+      
+      // ADD THIS LINE for search functionality:
+      const searchMatch = searchTerm === '' || 
+        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchTerm.toLowerCase());
 
-      return categoryMatch && priceMatch;
+      return categoryMatch && priceMatch && searchMatch;
     });
-  }, [selectedCategories, priceRange, allProducts]); // <-- 4. ADD 'allProducts' to dependency array
+  }, [selectedCategories, priceRange, allProducts, searchTerm]); // Add searchTerm to dependencies
 
   // --- Helper function (No change needed) ---
   const handleCategoryChange = (category: string, checked: boolean) => {
@@ -83,6 +91,20 @@ export default function ProductsPage() {
         <p className="text-lg text-gray-600">
           Discover our premium selection of picture frames and framing solutions
         </p>
+      </div>
+
+      {/* Search Input Section - ADD THIS */}
+      <div className="mb-6">
+        <div className="relative max-w-md">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+          <Input
+            placeholder="Search products..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10"
+            data-testid="search-input"
+          />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -113,6 +135,7 @@ export default function ProductsPage() {
                         ? 'bg-primary text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200 '
                     }`}
+                    data-testid={`category-filter-${category.toLowerCase().replace(/\s+/g, '-')}`}
                   >
                     {category}
                   </button>

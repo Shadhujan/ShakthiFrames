@@ -1,3 +1,4 @@
+//client/src/pages/public/CartPage.tsx
 import { Link } from 'react-router-dom';
 import { ShoppingBag, ArrowLeft, CreditCard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -71,7 +72,7 @@ export default function CartPage() {
             </Link>
           </Button>
         </div>
-        <p className="text-gray-600">
+        <p className="text-gray-600" data-testid="cart-item-count">
           {totalItems} {totalItems === 1 ? 'item' : 'items'} in your cart
         </p>
       </div>

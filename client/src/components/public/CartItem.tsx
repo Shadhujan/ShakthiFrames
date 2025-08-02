@@ -1,5 +1,4 @@
-// ----------------- START OF CORRECTED CartItem.tsx -----------------
-
+//client/src/components/public/CartItem.tsx
 import { useState } from 'react';
 import { Minus, Plus, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -50,7 +49,7 @@ export default function CartItem({ item }: CartItemProps) {
   const itemTotal = item.price * quantity;
 
   return (
-    <Card>
+    <Card data-testid="cart-item">
       <CardContent className="p-4">
         <div className="flex items-center space-x-4">
           {/* Product Image */}
@@ -94,5 +93,3 @@ export default function CartItem({ item }: CartItemProps) {
     </Card>
   );
 }
-
-// ----------------- END OF CORRECTED CartItem.tsx -----------------
