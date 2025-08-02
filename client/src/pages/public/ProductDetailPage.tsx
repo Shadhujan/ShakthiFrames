@@ -1,3 +1,4 @@
+//client/src/pages/public/ProductDetailPage.tsx
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -54,6 +55,19 @@ export default function ProductDetailPage() {
     // NOTE: Your addToCart in the store might expect a different shape.
     // Ensure it can handle the IProduct object.
     addToCart(product, 1); // Assuming addToCart takes product and quantity
+    
+    // ADD THIS: Show success message in the UI as well as toast
+    const successElement = document.createElement('div');
+    successElement.setAttribute('data-testid', 'cart-success-message');
+    successElement.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded z-50';
+    successElement.textContent = `${product.name} added to cart!`;
+    document.body.appendChild(successElement);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+      document.body.removeChild(successElement);
+    }, 3000);
+    
     toast.success(`${product.name} added to cart!`);
   };
 
@@ -121,7 +135,7 @@ export default function ProductDetailPage() {
 
           {/* Action Buttons */}
           <div className="space-y-4">
-            <Button onClick={handleAddToCart} disabled={!isInStock} className="w-full h-12 text-lg">
+            <Button onClick={handleAddToCart} disabled={!isInStock} className="w-full h-12 text-lg" data-testid="add-to-cart-button">
               <ShoppingCart className="mr-2 h-5 w-5" />
               {isInStock ? 'Add to Cart' : 'Out of Stock'}
             </Button>

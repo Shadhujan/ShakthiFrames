@@ -1,4 +1,3 @@
-// client/src/pages/auth/RegisterPage.tsx
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -40,10 +39,9 @@ export default function RegisterPage() {
 
     try {
       await register(email, password, name);
-      toast.success("Account created successfully!"); // Use toast for success
-      navigate('/'); // Redirect to home page after successful registration
-    } catch (err: any) { // <-- Change to `any` to access err.message
-      // Set the error state with the message from the API
+      toast.success("Account created successfully!");
+      navigate('/');
+    } catch (err: any) {
       setError(err.message || 'Registration failed. Please try again.');
     } finally {
       setIsLoading(false);
@@ -55,16 +53,20 @@ export default function RegisterPage() {
       <Card>
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">
-            Create an Account
+            Create Account
           </CardTitle>
           <CardDescription className="text-center">
-            Join us to start framing your precious memories
+            Please fill in your details to register
           </CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
+            {/* ADD DATA-TESTID HERE */}
             {error && (
-              <div className="p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">
+              <div 
+                className="p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md"
+                data-testid="error-message"
+              >
                 {error}
               </div>
             )}
@@ -72,50 +74,56 @@ export default function RegisterPage() {
               <Label htmlFor="name">Full Name</Label>
               <Input
                 id="name"
+                name="name" // Add name attribute
                 type="text"
                 placeholder="Enter your full name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
                 disabled={isLoading}
+                data-testid="name-input" // Add data-testid
               />
             </div>
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
+                name="email" // Add name attribute
                 type="email"
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 disabled={isLoading}
+                data-testid="email-input" // Add data-testid
               />
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <Input
                 id="password"
+                name="password" // Add name attribute
                 type="password"
-                placeholder="Create a password"
+                placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 disabled={isLoading}
-                minLength={6}
+                data-testid="password-input" // Add data-testid
               />
             </div>
             <div className="space-y-2">
               <Label htmlFor="confirmPassword">Confirm Password</Label>
               <Input
                 id="confirmPassword"
+                name="confirmPassword" // Add name attribute
                 type="password"
                 placeholder="Confirm your password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
                 disabled={isLoading}
-                minLength={6}
+                data-testid="confirm-password-input" // Add data-testid
               />
             </div>
           </CardContent>
@@ -124,6 +132,7 @@ export default function RegisterPage() {
               type="submit"
               className="w-full"
               disabled={isLoading}
+              data-testid="register-button" // Add data-testid
             >
               {isLoading ? (
                 <>

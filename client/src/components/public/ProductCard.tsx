@@ -1,3 +1,4 @@
+//client/src/components/public/ProductCard.tsx
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { IProduct } from "@/types"; // We get our data shape from here
@@ -20,7 +21,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     // The entire card links to the detail page using the product's '_id' from the database.
     <Link to={`/products/${product._id}`} className="group">
-      <Card className="h-full transition-all duration-300 hover:shadow-lg hover:scale-[1.02] cursor-pointer">
+      <Card className="h-full transition-all duration-300 hover:shadow-lg hover:scale-[1.02] cursor-pointer" data-testid="product-card">
         <CardContent className="p-0">
           <div className="aspect-square overflow-hidden rounded-t-lg">
             <img
@@ -33,7 +34,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
         <CardHeader className="pb-2">
           <div className="flex items-start justify-between gap-2">
-            <CardTitle className="text-lg font-semibold line-clamp-2 group-hover:text-primary transition-colors">
+            <CardTitle className="text-lg font-semibold line-clamp-2 group-hover:text-primary transition-colors" data-testid="product-title">
               {product.name}
             </CardTitle>
             {/* Conditionally render the "Out of Stock" badge */}

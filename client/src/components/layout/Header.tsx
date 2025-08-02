@@ -1,7 +1,9 @@
+//client/src/components/layout/Header.tsx
 import { Link, useNavigate } from 'react-router-dom';
 import { ShoppingCart, LogOut, UserCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Input } from '@/components/ui/input';
 import logo from '@/assets/SPF-Logo.png';
 import {
   DropdownMenu,
@@ -90,6 +92,17 @@ export default function Header() {
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
+                  <div className="relative">
+                    <Input
+                      placeholder="Search..."
+                      className="w-48"
+                      data-testid="header-search-input"
+                    />
+                  </div>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
                   <Link
                     to="/about"
                     className="text-zinc-600 group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-xl font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
@@ -126,7 +139,7 @@ export default function Header() {
             ) : (
               // Logged in - Show welcome message, cart, and user dropdown
               <>
-                <span className="hidden sm:inline text-lg text-gray-600">
+                <span className="hidden sm:inline text-lg text-gray-600" data-testid="user-welcome">
                   Welcome, {user?.name}!
                 </span>
 
@@ -135,7 +148,7 @@ export default function Header() {
                   <Link to="/cart">
                     <ShoppingCart className="h-5 w-6" />
                     {cartItemCount > 0 && (
-                      <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                      <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center" >
                         {cartItemCount}
                       </span>
                     )}
@@ -146,7 +159,7 @@ export default function Header() {
 
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <div className='flex items-center gap-2 border rounded-lg border-gray-400'>
+                    <div className='flex items-center gap-2 border rounded-lg border-gray-400' data-testid="user-menu">
                     <Button variant="ghost" className=" bg-white p-1 hover:bg-gray-100 hover:border-gray-300">
                       <Avatar className="h-5 w-7 ">
                         <AvatarFallback className="bg-white text-lg hover:bg-gray-100">
@@ -173,7 +186,7 @@ export default function Header() {
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
+                    <DropdownMenuItem onClick={handleLogout} className="cursor-pointer" data-testid="logout-button">
                       <LogOut className="mr-2 h-4 w-4" />
                       Logout
                     </DropdownMenuItem>

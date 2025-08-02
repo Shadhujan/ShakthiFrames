@@ -1,0 +1,27 @@
+{
+  "name": "spf-ecommerce-tests",
+  "version": "1.0.0",
+  "description": "E2E tests for Shakthi Picture Framing project",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:ui": "playwright test --ui",
+    "test:auth": "playwright test e2e/auth/",
+    "test:products": "playwright test e2e/products/",
+    "test:integration": "playwright test e2e/integration/",
+    "test:single": "playwright test --grep",
+    "test:list": "playwright test --list",
+    "report": "playwright show-report",
+    "install": "playwright install"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^20.0.0",
+    "@types/bcryptjs": "^2.4.6",
+    "bcryptjs": "^2.4.3",
+    "mongoose": "^8.17.0",
+    "@types/mongoose": "^5.11.96"
+  }
+}
