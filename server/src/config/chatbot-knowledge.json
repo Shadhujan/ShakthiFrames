@@ -1,0 +1,29 @@
+{
+  "intents": [
+    {
+      "keywords": ["hours", "open", "time", "timing", "close"],
+      "answer": "We are open from 9:00 AM to 6:00 PM, Monday through Saturday. We are closed on Sundays."
+    },
+    {
+      "keywords": ["location", "address", "where"],
+      "answer": "Our business is located in Colombo, Sri Lanka. You can find more details on our contact page."
+    },
+    {
+      "keywords": ["custom", "size", "special"],
+      "answer": "Yes, we offer custom frame sizes! To get a quote, please use the contact form on our website with your required dimensions."
+    },
+    {
+      "keywords": ["shipping", "delivery", "ship"],
+      "answer": "We provide island-wide shipping across all of Sri Lanka."
+    },
+    {
+      "keywords": ["products", "sell", "items", "frames", "mats", "glass"],
+      "answer": "We sell a variety of picture frames, mats, glass, and professional framing tools."
+    },
+    {
+      "keywords": ["contact", "phone", "email", "help"],
+      "answer": "For specific questions or quotes, the best way to reach us is through the contact form on our website."
+    }
+  ],
+  "fallback": "I'm sorry, I don't have that information. For more specific questions, please feel free to use the contact form on our website, and our team will be happy to assist you!"
+}
