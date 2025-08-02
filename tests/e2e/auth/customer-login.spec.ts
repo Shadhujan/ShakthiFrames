@@ -124,6 +124,11 @@ test.describe('Customer Login', () => {
           console.log(`❌ Authentication check error for ${check.description}:`, error);
         }
       }
+      
+      // Clean up: Delete the test user after successful login
+      console.log('🧹 Step 7: Cleaning up test user...');
+      await AuthHelper.deleteUserByEmail(testUser.email);
+      console.log('✅ Test user cleanup completed');
 
       if (!authenticationConfirmed) {
         console.log('⚠️ No authentication indicators found. Taking screenshot for debugging...');

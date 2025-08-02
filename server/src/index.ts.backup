@@ -2,19 +2,12 @@
 import express from 'express';
 import dotenv from 'dotenv';
 
-// ✅ OPTION C: Conditional environment loading for test isolation
-if (process.env.NODE_ENV !== 'test') {
-  // Load .env file only in development/production modes
-  dotenv.config();
-  console.log('🔧 Environment loaded from .env file');
-} else {
-  // In test mode, rely on Playwright's environment variable overrides
-  console.log('🧪 Test mode detected - using Playwright environment overrides');
-}
+dotenv.config();
 
 import connectDB from './config/db';
 import cors from 'cors';
 import helmet from 'helmet';
+
 
 // Import routes
 import authRoutes from './routes/authRoutes';
@@ -27,10 +20,10 @@ import paymentRoutes from './routes/paymentRoutes';
 import dashboardRoutes from './routes/dashboardRoutes';
 import chatbotRoutes from './routes/chatbotRoutes';
 
-// ❌ REMOVE: Duplicate dotenv.config() call (this was causing the override)
-// dotenv.config(); // <-- DELETE THIS LINE
+// Load environment variables from .env file
+dotenv.config();
 
-// Connect to database (will now use correct environment variables)
+// Connect to database
 connectDB();
 
 const app = express();
@@ -50,6 +43,7 @@ app.use(
 );
 
 // Enable CORS for all origins (you might want to restrict this in production)
+
 const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
 
 app.use(cors({
@@ -79,12 +73,4 @@ app.get('/api/v1', (req, res) => {
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-  
-  // ✅ Optional: Enhanced logging for test mode verification
-  if (process.env.NODE_ENV === 'test') {
-    console.log('🎯 Test mode configuration:');
-    console.log(`   Database URI: ${process.env.MONGODB_URI ? 'SET' : 'NOT SET'}`);
-    console.log(`   JWT Secret: ${process.env.JWT_SECRET ? 'SET' : 'NOT SET'}`);
-    console.log(`   Client URL: ${process.env.CLIENT_URL || 'DEFAULT'}`);
-  }
 });

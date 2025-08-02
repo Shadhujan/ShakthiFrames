@@ -1,0 +1,60 @@
+# Playwright test artifacts
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# Test videos and screenshots
+*.webm
+*.mp4
+*.png
+*.jpg
+*.jpeg
+
+# Test traces
+trace/
+
+# Test data and fixtures (if they contain sensitive data)
+# Uncomment if you want to ignore test data files
+# fixtures/test-data.ts
+
+# Coverage reports
+coverage/
+*.lcov
+
+# Test logs
+*.log
+test.log
+
+# Environment files
+.env.test
+.env.local
+
+# Temporary files
+*.tmp
+*.temp
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node modules (if any in test directory)
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Last run data
+.last-run.json 

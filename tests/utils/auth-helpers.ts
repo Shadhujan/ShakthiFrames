@@ -43,10 +43,66 @@ export class AuthHelper {
   /**
    * Register user via API call (bypasses UI for setup speed)
    */
+  /**
+   * Delete specific user by email (for test cleanup)
+   */
+  static async deleteUserByEmail(email: string): Promise<boolean> {
+    const serverUrl = process.env.SERVER_URL || 'http://localhost:5000';
+    
+    try {
+      // First, get admin token for user deletion
+      const adminResponse = await fetch(`${serverUrl}/api/v1/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: 'admin@spf.com', // Use admin credentials
+          password: 'Admin@123',
+        }),
+      });
+
+      if (!adminResponse.ok) {
+        console.log('⚠️ Admin login failed, skipping user deletion');
+        return false;
+      }
+
+      const adminData = await adminResponse.json() as ApiSuccessResponse;
+      const adminToken = adminData.token;
+
+      // Delete user by email
+      const deleteResponse = await fetch(`${serverUrl}/api/v1/users/${email}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`,
+        },
+      });
+
+      if (deleteResponse.ok) {
+        console.log(`✅ Test user deleted: ${email}`);
+        return true;
+      } else {
+        console.log(`⚠️ Failed to delete user: ${email}`);
+        return false;
+      }
+    } catch (error) {
+      console.log(`⚠️ Error deleting user ${email}:`, error);
+      return false;
+    }
+  }
+
   static async registerUserViaAPI(user: TestUser): Promise<ApiSuccessResponse> {
     const serverUrl = process.env.SERVER_URL || 'http://localhost:5000';
     
     try {
+      // First, try to delete existing user with same email
+      console.log(`🔍 Checking for existing user: ${user.email}`);
+      await this.deleteUserByEmail(user.email);
+      
+      // Wait a moment for database consistency
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
       const response = await fetch(`${serverUrl}/api/v1/auth/register`, {
         method: 'POST',
         headers: {
@@ -65,7 +121,7 @@ export class AuthHelper {
       }
 
       const userData = await response.json() as ApiSuccessResponse;
-      console.log(`Test user registered successfully: ${user.email}`);
+      console.log(`✅ Test user registered successfully: ${user.email}`);
       return userData;
     } catch (error) {
       console.error('API registration error:', error);

@@ -24,13 +24,13 @@ export interface TestUser {
       };
     }
   
-    static getValidUser(): TestUser {
-      return {
-        name: 'Henry Wick',
-        email: 'henrywick12@gmail.com',
-        password: 'Henry@123'
-      };
-    }
+      static getValidUser(): TestUser {
+    return {
+      name: 'Henry Wick',
+      email: `henrywick${Date.now()}@gmail.com`,
+      password: 'Henry@123'
+    };
+  }
   
     static getInvalidEmailUser(): TestUser {
       return {

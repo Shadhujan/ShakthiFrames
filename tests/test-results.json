@@ -1,0 +1,93 @@
+{
+  "config": {
+    "configFile": "D:\\UOB\\final sem\\ShakthiFrames\\tests\\playwright.config.ts",
+    "rootDir": "D:/UOB/final sem/ShakthiFrames/tests/e2e",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": "D:\\UOB\\final sem\\ShakthiFrames\\tests\\fixtures\\global-setup.ts",
+    "globalTeardown": "D:\\UOB\\final sem\\ShakthiFrames\\tests\\fixtures\\global-teardown.ts",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "environment": "development",
+      "testSuite": "E2E Tests - SPF Ecommerce",
+      "version": "1.0.0",
+      "timestamp": "2025-08-02T23:37:08.032Z"
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "list",
+        {
+          "printSteps": true
+        }
+      ],
+      [
+        "html",
+        {
+          "open": "never",
+          "outputFolder": "playwright-report",
+          "host": "localhost",
+          "port": 9323
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "D:/UOB/final sem/ShakthiFrames/tests/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "environment": "development",
+          "testSuite": "E2E Tests - SPF Ecommerce",
+          "version": "1.0.0",
+          "timestamp": "2025-08-02T23:37:08.032Z"
+        },
+        "id": "chromium-desktop",
+        "name": "chromium-desktop",
+        "testDir": "D:/UOB/final sem/ShakthiFrames/tests/e2e",
+        "testIgnore": [
+          "**/node_modules/**",
+          "**/dist/**",
+          "**/build/**",
+          "**/*.config.ts"
+        ],
+        "testMatch": [
+          "**/*.spec.ts",
+          "**/*.test.ts",
+          "**/*.e2e.ts"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.54.2",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-08-02T23:37:08.037Z",
+    "duration": 383.16099999999994,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}
