@@ -332,3 +332,4 @@ dist-ssr
 *.sln
 *.sw?
 tests/test-results.json
+tests/test-results.json
