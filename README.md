@@ -1,5 +1,7 @@
 # SPF Ecommerce Test Suite
 
+#test
+
 This directory contains comprehensive end-to-end (E2E) tests for the SPF Ecommerce application using Playwright.
 
 ## 📋 Table of Contents
